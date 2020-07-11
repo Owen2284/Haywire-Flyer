@@ -10,7 +10,7 @@ public class BaseEnemyBehaviour : BaseSpaceEntityBehaviour
     private Vector3 DEFAULT_ROTATION = new Vector3(0, 0, 90);
 
     // Start is called before the first frame update
-    private void Start()
+    private new void Start()
     {
         base.Start();
 

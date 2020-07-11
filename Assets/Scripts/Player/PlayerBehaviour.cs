@@ -12,11 +12,9 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
     private int cannonCooldown;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         base.Start();
-
-        //body = GetComponent<Rigidbody2D>();
 
         nextCannon = 0;
         cannonCooldown = 0;

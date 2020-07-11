@@ -37,9 +37,9 @@ public class ProjectileBehaviour : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D target) {
-        if (target.gameObject.tag == "Enemy") {
+        if (target.gameObject.tag == "Enemy" || target.gameObject.tag == "Boss") {
             BaseEnemyBehaviour enemy = target.gameObject.GetComponent<BaseEnemyBehaviour>();
-            enemy.TakeDamage(1);
+            enemy.TakeDamage(damage);
 
             energy -= 1;
 
