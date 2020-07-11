@@ -40,19 +40,10 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
     }
 
     void HandleRotation() {
-        bool clockwise = Input.GetKey(KeyCode.E);
-        bool antiClockwise = Input.GetKey(KeyCode.Q);
+        Vector2 screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
 
-        int rotationFactor = 0;
-
-        if (clockwise && !antiClockwise) {
-            rotationFactor = 1;
-        }
-        else if (antiClockwise && !clockwise) {
-            rotationFactor = -1;
-        }
-
-        body.rotation = body.rotation + (rotationFactor * rotateSpeed);
+        transform.up = worldPosition - new Vector2(transform.position.x, transform.position.y);
     }
 
     void HandleFiring() {
@@ -60,7 +51,7 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
             cannonCooldown -= 1;
         }
 
-        if (cannonCooldown == 0 && Input.GetKey(KeyCode.Space)) {
+        if (cannonCooldown == 0 && (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0))) {
             CannonBehaviour currentCannon = cannons[nextCannon];
             currentCannon.FireCannon();
 
