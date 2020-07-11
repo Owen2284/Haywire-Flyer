@@ -8,6 +8,8 @@ public class GameStateManager : MonoBehaviour
 {
     public Text healthText;
     public Text distanceText;
+    public Text haywireText;
+    public RectTransform haywireBar;
 
     private PlayerBehaviour player;
 
@@ -27,6 +29,7 @@ public class GameStateManager : MonoBehaviour
     void Update()
     {
         CheckCompletion();
+
         UpdateEnemies();
         UpdateUI();
     }
@@ -76,10 +79,17 @@ public class GameStateManager : MonoBehaviour
         else {
             distanceText.text = "TARGET APPROACHING";
         }
+
+        List<string> activeHaywires = player.GetActiveHaywires();
+        float haywireFactor = player.GetProgressToHaywire();        
+
+        haywireText.text = string.Join("\n", activeHaywires);
+        haywireBar.anchorMax = new Vector2(haywireFactor, 1);
     }
 
     private void FinalizeUI(bool victory) {
         healthText.text = "";
+        haywireText.text = "";
 
         if (victory) {
             distanceText.text = "VICTORY!";
