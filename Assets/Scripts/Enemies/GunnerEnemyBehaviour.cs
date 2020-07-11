@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GunnerEnemyBehaviour : BaseEnemyBehaviour
 {
+    protected override void Setup() {
+        secondsToNextCannon = cannonCooldownTime + (Random.Range(0, 0.50f) * cannonCooldownTime);
+    }
+
     protected override void HandleRotation() {
         if (targetPlayer != null) {
             transform.up = targetPlayer.transform.position - transform.position;
@@ -21,10 +25,9 @@ public class GunnerEnemyBehaviour : BaseEnemyBehaviour
 
             if (secondsToNextCannon <= 0) {
                 CannonBehaviour currentCannon = cannons[nextCannon];
-                Debug.Log("Attempting cannon fire");
                 currentCannon.FireCannon();
 
-                secondsToNextCannon = cannonCooldownTime;
+                secondsToNextCannon = cannonCooldownTime + (Random.Range(0, 0.50f) * cannonCooldownTime);
                 nextCannon += 1;
                 if (nextCannon >= cannons.Count) nextCannon = 0;
             }

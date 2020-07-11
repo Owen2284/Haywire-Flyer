@@ -128,7 +128,7 @@ PolygonCollider2D:
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_AutoTiling: 1
   m_Points:
     m_Paths:
     - - {x: 0.23213744, y: -0.055608377}
@@ -190,10 +190,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40185b0f4c9567741874f0674e8ec378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
-  moveVector: {x: -1.5, y: 0}
+  maxHealth: 4
+  moveVector: {x: -2.5, y: 0}
   rotatation: 0
-  cannonCooldownTime: 0.8
+  cannonCooldownTime: 1.2
 --- !u!1 &7156486182759701236
 GameObject:
   m_ObjectHideFlags: 0

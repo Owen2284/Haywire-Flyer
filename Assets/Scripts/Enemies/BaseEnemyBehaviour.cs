@@ -40,6 +40,7 @@ public class BaseEnemyBehaviour : BaseSpaceEntityBehaviour
         HandleMovement();
         HandleRotation();
         HandleFiring();
+        HandleDisposal();
     }
 
     private void OnCollisionEnter2D(Collision2D target) {
@@ -48,6 +49,10 @@ public class BaseEnemyBehaviour : BaseSpaceEntityBehaviour
 
     protected virtual void Setup() {
 
+    }
+
+    public string GetEnemyType() {
+        return name.Replace("Enemy - ", "");
     }
 
     protected virtual void HandleMovement() {
@@ -69,7 +74,14 @@ public class BaseEnemyBehaviour : BaseSpaceEntityBehaviour
         }
     }
 
-    protected void ResetRotation() {
+    protected virtual void HandleDisposal() {
+        Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+        if (screenPosition.x < -3 || screenPosition.y > Screen.height + 1 || screenPosition.y < -1) {
+            Destroy(this.gameObject);                
+        }
+    }
+
+    public void ResetRotation() {
         if (transform.eulerAngles.z != 90) {
             transform.eulerAngles = DEFAULT_ROTATION;
         }

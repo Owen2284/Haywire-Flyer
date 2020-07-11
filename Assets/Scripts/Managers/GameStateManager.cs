@@ -6,6 +6,12 @@ using UnityEngine.UI;
 
 public class GameStateManager : MonoBehaviour
 {
+    public List<GameObject> spawnableEnemies;
+    public Vector2 spawnRoot;
+
+    public float secondsBetweenWaves;
+    public float secondsBetweenBosses;
+
     public Text healthText;
     public Text distanceText;
     public Text haywireText;
@@ -13,16 +19,22 @@ public class GameStateManager : MonoBehaviour
 
     private PlayerBehaviour player;
 
-    private int timeToNextWave;
-    private int timeToNextBoss;
+    private float secondsToNextWave;
+    private float secondsToNextBoss;
+
+    private bool? finishState;
+
+    private List<WaveDefinition> waveDefinitions;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<PlayerBehaviour>();
 
-        timeToNextWave = 0;
-        timeToNextBoss = 50000;
+        secondsToNextWave = secondsBetweenWaves / 3;
+        secondsToNextBoss = secondsBetweenBosses;
+
+        InitWaves();
     }
 
     // Update is called once per frame
@@ -38,11 +50,15 @@ public class GameStateManager : MonoBehaviour
         int enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
         int bossCount = GameObject.FindGameObjectsWithTag("Boss").Length;
 
-        if (timeToNextBoss == 0 && bossCount == 0 && enemyCount == 0) {
-            FinalizeUI(true);
+        if (secondsToNextBoss == 0 && bossCount == 0 && enemyCount == 0) {
+            finishState = true;
         }
         else if (player == null) {
-            FinalizeUI(false);
+            finishState = false;
+        }
+
+        if (finishState != null) {
+            FinalizeUI(finishState.Value);
         }
     }
 
@@ -51,37 +67,39 @@ public class GameStateManager : MonoBehaviour
         int bossCount = GameObject.FindGameObjectsWithTag("Boss").Length;
 
         // Enemy spawning
-        if (timeToNextWave > 0) {
-            --timeToNextWave;
+        if (secondsToNextWave > 0) {
+            secondsToNextWave -= Time.deltaTime;
         }
-        if (timeToNextWave == 0 || enemyCount == 0 && (timeToNextBoss > 0 || bossCount > 0)) {
-            // TODO: Spawn wave
-            timeToNextWave = 1000;
+        if (secondsToNextWave <= 0 || enemyCount == 0) {
+            Debug.Log(secondsToNextWave <= 0);
+            Debug.Log(enemyCount == 0);
+            SpawnWave();
+            secondsToNextWave = secondsBetweenWaves;
         }
 
         // Boss spawning
-        if (timeToNextBoss > 0) {
-            --timeToNextBoss;
+        if (secondsToNextBoss > 0) {
+            secondsToNextBoss -= Time.deltaTime;
         }
-        if (timeToNextBoss == 0) {
+        if (secondsToNextBoss <= 0) {
             // TODO: Spawn boss
         }
     }
 
     private void UpdateUI() {
-        float healthValue = player.GetCurrentHealth() * 10;
+        float healthValue = (player.GetCurrentHealth() / player.maxHealth) * 100;
         healthText.text = $"Current health: {healthValue}";
 
-        if (timeToNextBoss > 0) {
-            int displayDistance = (int)Mathf.Ceil(timeToNextBoss / 100);
-            distanceText.text = $"Distance to target: {displayDistance}";
+        if (secondsToNextBoss > 0) {
+            float distanceFactor = secondsToNextBoss / secondsBetweenBosses;
+            distanceText.text = $"Distance to target: {((int)(distanceFactor * 10000))}";
         }
         else {
             distanceText.text = "TARGET APPROACHING";
         }
 
         List<string> activeHaywires = player.GetActiveHaywires();
-        float haywireFactor = player.GetProgressToHaywire();        
+        float haywireFactor = player.GetProgressToHaywire();
 
         haywireText.text = string.Join("\n", activeHaywires);
         haywireBar.anchorMax = new Vector2(haywireFactor, 1);
@@ -96,6 +114,70 @@ public class GameStateManager : MonoBehaviour
         }
         else {
             distanceText.text = "Defeat...";
+        }
+    }
+
+
+
+
+
+    private void InitWaves() {
+        waveDefinitions = new List<WaveDefinition>();
+
+        // One row, middle
+        waveDefinitions.Add(new WaveDefinition() {
+            positions = new List<Vector2> {
+                new Vector2(0, 0),
+                new Vector2(1, 0),
+                new Vector2(2, 0),
+                new Vector2(3, 0),
+                new Vector2(4, 0),
+                new Vector2(5, 0)
+            }
+        });
+
+        // One row, higher
+        waveDefinitions.Add(new WaveDefinition() {
+            positions = new List<Vector2> {
+                new Vector2(0, 3),
+                new Vector2(1, 3),
+                new Vector2(2, 3),
+                new Vector2(3, 3),
+                new Vector2(4, 3),
+                new Vector2(5, 3)
+            }
+        });
+
+        // One row, lower
+        waveDefinitions.Add(new WaveDefinition() {
+            positions = new List<Vector2> {
+                new Vector2(0, -3),
+                new Vector2(1, -3),
+                new Vector2(2, -3),
+                new Vector2(3, -3),
+                new Vector2(4, -3),
+                new Vector2(5, -3)
+            }
+        });
+    }
+
+    private void SpawnWave() {
+        // Constants
+        Quaternion rotation = Quaternion.Euler(0, 0, 90);
+
+        // Pick a wave and enemy type
+        WaveDefinition wave = waveDefinitions[Random.Range(0, waveDefinitions.Count)];
+
+        List<GameObject> allowedEnemies = spawnableEnemies
+            .Where(x => !wave.allowedEnemyTypes.Any() 
+                || wave.allowedEnemyTypes.Contains(x.GetComponent<BaseEnemyBehaviour>().GetEnemyType()))
+            .ToList();
+        GameObject enemyType = allowedEnemies[Random.Range(0, allowedEnemies.Count)].gameObject;
+
+        // Spawn all the enemies
+        foreach (Vector2 position in wave.positions) {
+            GameObject enemy = (GameObject)Instantiate(enemyType, position + spawnRoot, rotation);
+            //BaseEnemyBehaviour enemyBehaviour = enemy.GetComponent<BaseEnemyBehaviour>();
         }
     }
 }
