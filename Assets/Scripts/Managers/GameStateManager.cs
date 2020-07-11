@@ -16,6 +16,7 @@ public class GameStateManager : MonoBehaviour
     public Text distanceText;
     public Text haywireText;
     public RectTransform haywireBar;
+    public Image progressTracker;
 
     private PlayerBehaviour player;
 
