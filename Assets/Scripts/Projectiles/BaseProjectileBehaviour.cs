@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileBehaviour : MonoBehaviour
+public class BaseProjectileBehaviour : MonoBehaviour
 {
     public Vector2 velocity;
     public float damage;
 
-    private int energy;
+    protected int energy;
 
     private Rigidbody2D body;
 
@@ -36,14 +36,9 @@ public class ProjectileBehaviour : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D target) {
-        if (target.gameObject.tag == "Enemy" || target.gameObject.tag == "Boss") {
-            BaseEnemyBehaviour enemy = target.gameObject.GetComponent<BaseEnemyBehaviour>();
-            enemy.TakeDamage(damage);
+    protected void DecreaseEnergy() {
+        energy -= 1;
 
-            energy -= 1;
-
-            if (energy <= 0) Destroy(this.gameObject);
-        }
+        if (energy <= 0) Destroy(this.gameObject);
     }
 }

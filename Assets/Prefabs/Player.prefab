@@ -101,6 +101,9 @@ MonoBehaviour:
   maxHealth: 10
   moveSpeed: 4
   rotateSpeed: 0.6
+  cannonCooldownTime: 0
+  haywireTime: 0
+  haywireCount: 0
 --- !u!50 &4578258106542590157
 Rigidbody2D:
   serializedVersion: 4
@@ -237,7 +240,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 697ae3586c32dde47ba75e96d95d9f19, type: 3}
+  m_Sprite: {fileID: 21300000, guid: efbfe1c3df1e8e44db3298f739d5e1f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -334,7 +337,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 697ae3586c32dde47ba75e96d95d9f19, type: 3}
+  m_Sprite: {fileID: 21300000, guid: efbfe1c3df1e8e44db3298f739d5e1f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

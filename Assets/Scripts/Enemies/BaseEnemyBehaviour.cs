@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BaseEnemyBehaviour : BaseSpaceEntityBehaviour
@@ -7,12 +8,28 @@ public class BaseEnemyBehaviour : BaseSpaceEntityBehaviour
     public Vector2 moveVector;
     public float rotatation;
 
+    protected GameObject targetPlayer;
+
     private Vector3 DEFAULT_ROTATION = new Vector3(0, 0, 90);
+
+    protected List<CannonBehaviour> cannons;
+    protected int nextCannon;
+    protected float secondsToNextCannon;
+
+    public float cannonCooldownTime;
 
     // Start is called before the first frame update
     private new void Start()
     {
         base.Start();
+
+        targetPlayer = GameObject.FindWithTag("Player");
+
+        cannons = GetComponentsInChildren<Transform>()
+            .Where(x => x.gameObject.name.StartsWith("Cannon"))
+            .Select(x => x.GetComponent<CannonBehaviour>())
+            .ToList();
+        secondsToNextCannon = cannonCooldownTime;
 
         Setup();
     }

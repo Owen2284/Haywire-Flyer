@@ -15,6 +15,6 @@ public class CannonBehaviour : MonoBehaviour
         GameObject spawnedProjectile = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
 
         Vector2 fireVelocity = new Vector2(fireSpeed, fireSpeed) * transform.up;
-        spawnedProjectile.GetComponent<ProjectileBehaviour>().velocity = fireVelocity;
+        spawnedProjectile.GetComponent<BaseProjectileBehaviour>().velocity = fireVelocity;
     }
 }

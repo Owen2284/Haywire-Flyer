@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class ChaserEnemyBehaviour : BaseEnemyBehaviour
 {
-    private GameObject targetPlayer;
-
-    protected override void Setup() {
-        targetPlayer = GameObject.FindWithTag("Player");
-    }
-
     protected override void HandleMovement() {
         if (targetPlayer == null) {
             base.HandleMovement();
