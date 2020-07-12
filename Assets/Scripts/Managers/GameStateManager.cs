@@ -41,6 +41,7 @@ public class GameStateManager : MonoBehaviour
     private float secondsToNextHaywire;
     private float secondsToNextHaywireIncrease;
 
+    private bool firstWave;
     private bool bossSpawned;
     private bool? finishState;
 
@@ -59,6 +60,8 @@ public class GameStateManager : MonoBehaviour
         bossHealthBarPanel.gameObject.SetActive(false);
 
         player = GameObject.FindWithTag("Player").GetComponent<PlayerBehaviour>();
+
+        firstWave = true;
 
         secondsToNextWave = 0;
         secondsToNextBoss = secondsBetweenBosses;
@@ -106,6 +109,7 @@ public class GameStateManager : MonoBehaviour
             // Either the timer has expired, or the boss hasn't spawned and the enemies have run out
             if (secondsToNextWave <= 0 || (bossCount == 0 && enemyCount == 0)) {
                 SpawnWave();
+                firstWave = false;
                 secondsToNextWave = secondsBetweenWaves;
             }
 
@@ -300,13 +304,20 @@ public class GameStateManager : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(0, 0, 90);
 
         // Pick a wave and enemy type
-        WaveDefinition wave = waveDefinitions[Random.Range(0, waveDefinitions.Count)];
+        WaveDefinition wave;
+        GameObject enemyType;
+        if (firstWave) {
+            wave = waveDefinitions[1];
+            enemyType = spawnableEnemies[1];
+        } else {
+            wave = waveDefinitions[Random.Range(0, waveDefinitions.Count)];
 
-        List<GameObject> allowedEnemies = spawnableEnemies
+            List<GameObject> allowedEnemies = spawnableEnemies
             .Where(x => !wave.allowedEnemyTypes.Any() 
                 || wave.allowedEnemyTypes.Contains(x.GetComponent<BaseEnemyBehaviour>().GetEnemyType()))
             .ToList();
-        GameObject enemyType = allowedEnemies[Random.Range(0, allowedEnemies.Count)].gameObject;
+            enemyType = allowedEnemies[Random.Range(0, allowedEnemies.Count)].gameObject;
+        }
 
         // Spawn all the enemies
         foreach (Vector2 position in wave.positions) {
