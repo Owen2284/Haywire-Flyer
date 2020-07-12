@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerBehaviour : BaseSpaceEntityBehaviour
@@ -8,13 +9,17 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
     public float moveSpeed;
     public float rotateSpeed;
     public float cannonCooldownTime;
+    public float invulnerabilityTime;
 
     private List<CannonBehaviour> cannons;
     private int nextCannon;
     private float secondsToNextCannon;
+    private float invulnerabilityTimeRemaining;
 
     private HaywireCollection haywires;
     private float haywireVerticalMovementUncontrollableFactor;
+
+    private List<SpriteRenderer> spriteRenderers;
 
     // Start is called before the first frame update
     new void Start()
@@ -28,6 +33,12 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
             transform.Find("Cannon R").gameObject.GetComponent<CannonBehaviour>()
         };
 
+        spriteRenderers = new List<SpriteRenderer>() { GetComponent<SpriteRenderer>() };
+        spriteRenderers.AddRange(cannons.Select(x => x.gameObject.GetComponent<SpriteRenderer>()));
+        Debug.Log(spriteRenderers);
+
+        invulnerabilityTimeRemaining = 0;
+
         haywireVerticalMovementUncontrollableFactor = 1;
     }
 
@@ -37,6 +48,7 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
         HandleMovement();
         HandleRotation();
         HandleFiring();
+        HandleInvulnerability();
         HandleHaywires();
     }
 
@@ -87,6 +99,23 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
             secondsToNextCannon = GetCannonCooldownTime();
             nextCannon += 1;
             if (nextCannon >= cannons.Count) nextCannon = 0;
+        }
+    }
+
+    private void HandleInvulnerability() {
+        if (invulnerabilityTimeRemaining > 0) {
+            invulnerabilityTimeRemaining -= Time.deltaTime;
+
+            float invulnerabilityFactor = Mathf.Ceil((invulnerabilityTimeRemaining / invulnerabilityTime) * (invulnerabilityTime * 10));
+            bool visibleThisFrame = invulnerabilityFactor % 2 == 1;
+            foreach (SpriteRenderer rend in spriteRenderers) {
+                rend.enabled = visibleThisFrame;
+            }
+        }
+        else {
+            foreach (SpriteRenderer rend in spriteRenderers) {
+                rend.enabled = true;
+            }
         }
     }
 
@@ -159,7 +188,7 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
     }
 
     public override void TakeDamage(float damage) {
-        if (damage <= 0) {
+        if (damage <= 0 || invulnerabilityTimeRemaining > 0) {
             return;
         }
 
@@ -170,6 +199,10 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
 
         health -= trueDamage;
 
-        if (health <= 0) Destroy(this.gameObject);
+        if (health <= 0) {
+            Destroy(this.gameObject);
+        }
+
+        invulnerabilityTimeRemaining = invulnerabilityTime;
     }
 }

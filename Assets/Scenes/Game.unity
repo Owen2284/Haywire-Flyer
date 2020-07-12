@@ -348,8 +348,8 @@ MonoBehaviour:
   haywireTime: 25
   haywireCount: 1
   secondsBetweenWaves: 8
-  secondsBetweenBosses: 240
-  secondsBetweenHaywireIncreases: 119
+  secondsBetweenBosses: 180
+  secondsBetweenHaywireIncreases: 80
   healthText: {fileID: 1003581446}
   distanceText: {fileID: 770602962}
   haywireText: {fileID: 1889458941}
@@ -1396,6 +1396,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxHealth
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578258106542590158, guid: 9194f47070b5b784bb5082c9c05d4eb5,
+        type: 3}
+      propertyPath: invulnerabilityTime
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4578258106542590192, guid: 9194f47070b5b784bb5082c9c05d4eb5,
         type: 3}
