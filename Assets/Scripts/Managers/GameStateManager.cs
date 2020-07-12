@@ -47,6 +47,8 @@ public class GameStateManager : MonoBehaviour
 
     private HaywireCollection activeHaywires;
 
+    private float progressIconInitialX;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +62,8 @@ public class GameStateManager : MonoBehaviour
         secondsToNextHaywireIncrease = secondsBetweenHaywireIncreases;
 
         InitWaves();
+
+        progressIconInitialX = 12.1f;
     }
 
     // Update is called once per frame
@@ -121,7 +125,7 @@ public class GameStateManager : MonoBehaviour
         else {
             if (secondsToNextBoss > 0) {
                 float distanceFactor = 1 - (secondsToNextBoss / secondsBetweenBosses);
-                float start = 12.1f;
+                float start = progressIconInitialX;
                 float end = targetIcon.transform.position.x - 10;
                 float newProgressX = start + ((end - start) * distanceFactor);
                 progressIcon.transform.position = new Vector3(
