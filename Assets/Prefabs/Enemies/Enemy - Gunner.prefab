@@ -193,7 +193,7 @@ MonoBehaviour:
   maxHealth: 4
   moveVector: {x: -2.5, y: 0}
   rotatation: 0
-  cannonCooldownTime: 1.2
+  cannonCooldownTime: 1
 --- !u!1 &7156486182759701236
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,3 +291,4 @@ MonoBehaviour:
   projectile: {fileID: 2516863276070522177, guid: af53a86f40ed454429485edd7b2dd7b9,
     type: 3}
   fireSpeed: -5
+  facePlayer: 0

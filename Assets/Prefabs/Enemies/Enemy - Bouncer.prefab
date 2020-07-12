@@ -164,9 +164,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
-  moveVector: {x: -1.5, y: 3}
+  moveVector: {x: -2, y: 4}
   rotatation: 0
-  cannonCooldownTime: 1.6
+  cannonCooldownTime: 1.2
 --- !u!1 &652141668793458245
 GameObject:
   m_ObjectHideFlags: 0
