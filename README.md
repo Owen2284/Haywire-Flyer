@@ -1,5 +1,6 @@
 # Haywire Flyer
-A side-scrolling space shooter with a short-circuiting ship (made for GMTK Game Jam 2020)
+A side-scrolling space shooter with a short-circuiting ship!
+Play online here: https://owen2284.itch.io/haywire-flyer
 
 ## Music Credits
 
