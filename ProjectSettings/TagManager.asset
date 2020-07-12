@@ -8,6 +8,7 @@ TagManager:
   - Boss
   - PlayerProjectile
   - EnemyProjectile
+  - Boundary
   layers:
   - Default
   - TransparentFX
@@ -22,8 +23,8 @@ TagManager:
   - Player Projectiles
   - Enemy Projectiles
   - Bosses
-  - 
-  - 
+  - Player Boundary
+  - All Boundary
   - 
   - 
   - 
