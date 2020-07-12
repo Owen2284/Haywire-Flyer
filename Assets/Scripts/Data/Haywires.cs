@@ -16,7 +16,6 @@ public class HaywireCollection
         List<HaywireDefinition> remainingHaywires = HaywireHelper.GetAllHaywires();
 
         // Set active
-        Debug.Log(remainingHaywires.Sum(x => x.Chance));
         while (haywires.Count < haywireCount && remainingHaywires.Count > 0) {
             int haywireNumber = UnityEngine.Random.Range(0, remainingHaywires.Sum(x => x.Chance));
 
