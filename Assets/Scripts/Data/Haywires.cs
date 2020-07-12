@@ -66,7 +66,8 @@ public static class HaywireHelper {
             new HaywireDefinition(HaywireType.ShipSpeedDoubled),
             new HaywireDefinition(HaywireType.ShipCannonsSpin),
             new HaywireDefinition(HaywireType.ShipSpinUncontrollable),
-
+            new HaywireDefinition(HaywireType.ShipArmorWeightIncreased),
+            new HaywireDefinition(HaywireType.ShipMovementVerticalUncontrollable)
         };
     }
 }
@@ -82,13 +83,13 @@ public class HaywireDefinition {
 
 public enum HaywireType {
     ShipMovementVerticalOnly = 0,       // DONE
-    ShipMovementPong = 1,
+    ShipMovementVerticalUncontrollable = 1,
     ShipSpeedDoubled = 2,               // DONE
     ShipCannonsNonStop = 3,
     ShipCannonsSpin = 4,                // DONE
     ShipProjectilesWeighted = 5,   
     ShipCannonsBackwards = 6,
     ShipVisibilityReduced = 7,
-    ShipSpinUncontrollable = 8,          // DONE
-    ShipArmorWeightIncreased = 9
+    ShipSpinUncontrollable = 8,         // DONE
+    ShipArmorWeightIncreased = 9        // DONE
 }

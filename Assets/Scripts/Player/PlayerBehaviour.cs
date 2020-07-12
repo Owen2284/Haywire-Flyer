@@ -14,6 +14,7 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
     private float secondsToNextCannon;
 
     private HaywireCollection haywires;
+    private float haywireVerticalMovementUncontrollableFactor;
 
     // Start is called before the first frame update
     new void Start()
@@ -26,6 +27,8 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
             transform.Find("Cannon L").gameObject.GetComponent<CannonBehaviour>(),
             transform.Find("Cannon R").gameObject.GetComponent<CannonBehaviour>()
         };
+
+        haywireVerticalMovementUncontrollableFactor = 1;
     }
 
     // Update is called once per frame
@@ -42,6 +45,12 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
         float v = Input.GetAxisRaw("Vertical");
         if (IsHaywireActive(HaywireType.ShipMovementVerticalOnly)) {
             h = 0;
+        }
+        if (IsHaywireActive(HaywireType.ShipMovementVerticalUncontrollable)) {
+            if (transform.position.y > 4) haywireVerticalMovementUncontrollableFactor = -1;
+            if (transform.position.y < -4) haywireVerticalMovementUncontrollableFactor = 1;
+
+            v = haywireVerticalMovementUncontrollableFactor;
         }
 
         float trueMoveSpeed = GetMoveSpeed();
@@ -117,7 +126,7 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
         
         if (IsHaywireActive(HaywireType.ShipMovementVerticalOnly)
             || IsHaywireActive(HaywireType.ShipSpinUncontrollable)
-            || IsHaywireActive(HaywireType.ShipMovementPong)) {
+            || IsHaywireActive(HaywireType.ShipMovementVerticalUncontrollable)) {
             return (2 * cannonCooldownTime) / 3;
         }
 
