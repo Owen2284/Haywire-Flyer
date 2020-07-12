@@ -9,8 +9,12 @@ public class GameStateManager : MonoBehaviour
     public List<GameObject> spawnableEnemies;
     public Vector2 spawnRoot;
 
+    public float haywireTime;
+    public int haywireCount;
+
     public float secondsBetweenWaves;
     public float secondsBetweenBosses;
+    public float secondsBetweenHaywireIncreases;
 
     public Text healthText;
     public Text distanceText;
@@ -22,18 +26,24 @@ public class GameStateManager : MonoBehaviour
 
     private float secondsToNextWave;
     private float secondsToNextBoss;
+    private float secondsToNextHaywire;
+    private float secondsToNextHaywireIncrease;
 
     private bool? finishState;
 
     private List<WaveDefinition> waveDefinitions;
+
+    private HaywireCollection activeHaywires;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<PlayerBehaviour>();
 
-        secondsToNextWave = secondsBetweenWaves / 3;
+        secondsToNextWave = 0;
         secondsToNextBoss = secondsBetweenBosses;
+        secondsToNextHaywire = haywireTime;
+        secondsToNextHaywireIncrease = secondsBetweenHaywireIncreases;
 
         InitWaves();
     }
@@ -43,7 +53,9 @@ public class GameStateManager : MonoBehaviour
     {
         CheckCompletion();
 
-        UpdateEnemies();
+        HandleHaywires();
+        HandleEnemies();
+
         UpdateUI();
     }
 
@@ -63,7 +75,7 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
-    private void UpdateEnemies() {
+    private void HandleEnemies() {
         int enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
         int bossCount = GameObject.FindGameObjectsWithTag("Boss").Length;
 
@@ -72,8 +84,6 @@ public class GameStateManager : MonoBehaviour
             secondsToNextWave -= Time.deltaTime;
         }
         if (secondsToNextWave <= 0 || enemyCount == 0) {
-            Debug.Log(secondsToNextWave <= 0);
-            Debug.Log(enemyCount == 0);
             SpawnWave();
             secondsToNextWave = secondsBetweenWaves;
         }
@@ -99,10 +109,10 @@ public class GameStateManager : MonoBehaviour
             distanceText.text = "TARGET APPROACHING";
         }
 
-        List<string> activeHaywires = player.GetActiveHaywires();
-        float haywireFactor = player.GetProgressToHaywire();
+        List<string> activeHaywiresText = GetActiveHaywiresText();
+        float haywireFactor = GetProgressToHaywire();
 
-        haywireText.text = string.Join("\n", activeHaywires);
+        haywireText.text = string.Join("\n", activeHaywiresText);
         haywireBar.anchorMax = new Vector2(haywireFactor, 1);
     }
 
@@ -118,7 +128,65 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
+    void HandleHaywires() {
+        secondsToNextHaywire -= Time.deltaTime;
+        if (secondsToNextHaywire <= 0) {
+            activeHaywires = new HaywireCollection(haywireCount);
+            secondsToNextHaywire = haywireTime;
+        }
 
+        secondsToNextHaywireIncrease -= Time.deltaTime;
+        if (secondsToNextHaywireIncrease <= 0) {
+            if (haywireCount < 3) {
+                ++haywireCount;
+            }
+
+            secondsToNextHaywireIncrease = secondsBetweenHaywireIncreases;
+        }
+    }
+
+    public float GetProgressToHaywire() {
+        return 1 - (secondsToNextHaywire / haywireTime);
+    }
+
+    public List<string> GetActiveHaywiresText() {
+        List<string> haywireTextList = new List<string>();
+
+        if (activeHaywires == null || activeHaywires.TotalHaywires == 0) {
+            haywireTextList.Add("All systems online");
+            return haywireTextList;
+        }
+
+        if (activeHaywires.IsActive(HaywireType.ShipMovementVerticalOnly)) {
+            haywireTextList.Add("Ship forward thrust offline!");
+        }
+        if (activeHaywires.IsActive(HaywireType.ShipMovementPong)) {
+            haywireTextList.Add("Ship thrust firing at random!");
+        }
+        if (activeHaywires.IsActive(HaywireType.ShipSpeedDoubled)) {
+            haywireTextList.Add("Ship speed doubled!");
+        }
+        if (activeHaywires.IsActive(HaywireType.ShipCannonsNonStop)) {
+            haywireTextList.Add("Cannons firing non-stop!");
+        }
+        if (activeHaywires.IsActive(HaywireType.ShipCannonsSpin)) {
+            haywireTextList.Add("Cannons rotating freely!");
+        }
+        if (activeHaywires.IsActive(HaywireType.ShipProjectilesWeighted)) {
+            haywireTextList.Add("Cannon targeting failure!");
+        }
+        if (activeHaywires.IsActive(HaywireType.ShipProjectilesPersistent)) {
+            haywireTextList.Add("Projectiles not disappearing!");
+        }
+        if (activeHaywires.IsActive(HaywireType.ShipVisibilityReduced)) {
+            haywireTextList.Add("Visibility reduced!");
+        }
+        if (activeHaywires.IsActive(HaywireType.ShipSpinUncontrollable)) {
+            haywireTextList.Add("Ship spinning uncontrollably!");
+        }
+
+        return haywireTextList;
+    }
 
 
 

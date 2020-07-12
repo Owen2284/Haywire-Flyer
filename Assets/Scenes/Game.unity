@@ -234,12 +234,16 @@ MonoBehaviour:
   - {fileID: 3806369103906133131, guid: 5edc615d64e6de24c91660bc06e82e0c, type: 3}
   - {fileID: 7156486182214465311, guid: 505f8ade6d5ecc0499e0dae86fb91e93, type: 3}
   spawnRoot: {x: 10, y: 0}
+  haywireTime: 5
+  haywireCount: 1
   secondsBetweenWaves: 8
   secondsBetweenBosses: 240
+  secondsBetweenHaywireIncreases: 1
   healthText: {fileID: 1003581446}
   distanceText: {fileID: 770602962}
   haywireText: {fileID: 1889458941}
   haywireBar: {fileID: 1792404489}
+  progressTracker: {fileID: 0}
 --- !u!1 &459204857
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +256,7 @@ GameObject:
   - component: {fileID: 459204860}
   - component: {fileID: 459204859}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Target Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -274,7 +278,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 110.7, y: 0}
+  m_AnchoredPosition: {x: 110.5, y: 1.5}
   m_SizeDelta: {x: 16, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &459204859
@@ -501,7 +505,7 @@ RectTransform:
   m_Children:
   - {fileID: 1889458940}
   m_Father: {fileID: 1655878193}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -576,7 +580,7 @@ RectTransform:
   m_Children:
   - {fileID: 1792404489}
   m_Father: {fileID: 1655878193}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -745,10 +749,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 735, y: 413}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -789,8 +793,8 @@ RectTransform:
   m_Children:
   - {fileID: 1786761325}
   - {fileID: 1643306666}
-  - {fileID: 1005201858}
   - {fileID: 1092438171}
+  - {fileID: 1005201858}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -8,14 +8,10 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
     public float moveSpeed;
     public float rotateSpeed;
     public float cannonCooldownTime;
-    public float haywireTime;
-    public int haywireCount;
 
     private List<CannonBehaviour> cannons;
     private int nextCannon;
     private float secondsToNextCannon;
-    private float secondsToNextHaywire;
-
 
     // Start is called before the first frame update
     new void Start()
@@ -28,8 +24,6 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
             transform.Find("Cannon L").gameObject.GetComponent<CannonBehaviour>(),
             transform.Find("Cannon R").gameObject.GetComponent<CannonBehaviour>()
         };
-
-        secondsToNextHaywire = haywireTime;
     }
 
     // Update is called once per frame
@@ -38,7 +32,6 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
         HandleMovement();
         HandleRotation();
         HandleFiring();
-        HandleHaywires();
     }
 
     void HandleMovement() {
@@ -81,22 +74,5 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
 
             if (health <= 0) Destroy(this.gameObject);
         }
-    }
-
-    void HandleHaywires() {
-        secondsToNextHaywire -= Time.deltaTime;
-        if (secondsToNextHaywire <= 0) {
-            // TODO: Send system(s) haywire
-            Debug.Log("Haywire time!");
-            secondsToNextHaywire = haywireTime;
-        }
-    }
-
-    public float GetProgressToHaywire() {
-        return 1 - (secondsToNextHaywire / haywireTime);
-    }
-
-    public List<string> GetActiveHaywires() {
-        return new List<string> { "Haywire 1", "Haywire 2", "Haywire 3" };
     }
 }
