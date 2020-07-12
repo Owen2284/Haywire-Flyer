@@ -345,7 +345,7 @@ MonoBehaviour:
   spawnableBosses:
   - {fileID: 3942650829711793472, guid: f354317ec9d26204e96e8d81cf33c02b, type: 3}
   spawnRoot: {x: 10, y: 0}
-  haywireTime: 25
+  haywireTime: 5
   haywireCount: 1
   secondsBetweenWaves: 20
   secondsBetweenBosses: 240

@@ -137,9 +137,9 @@ public class GameStateManager : MonoBehaviour
         secondsToNextHaywire -= Time.deltaTime;
         if (secondsToNextHaywire <= 0) {
             activeHaywires = new HaywireCollection(haywireCount);
-            // activeHaywires = new HaywireCollection(new List<HaywireType> {
-            //     HaywireType.ShipSpinUncontrollable
-            // });
+            activeHaywires = new HaywireCollection(new List<HaywireType> {
+                HaywireType.ShipArmorWeightIncreased
+            });
             
             player.SetHaywires(activeHaywires);
 
@@ -179,6 +179,9 @@ public class GameStateManager : MonoBehaviour
         }
         if (activeHaywires.IsActive(HaywireType.ShipSpinUncontrollable)) {
             haywireTextList.Add("Ship spinning uncontrollably!");
+        }
+        if (activeHaywires.IsActive(HaywireType.ShipArmorWeightIncreased)) {
+            haywireTextList.Add("Armor weight increased!");
         }
 
         return haywireTextList;

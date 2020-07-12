@@ -125,11 +125,16 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
     }
 
     private float GetMoveSpeed() {
+        float trueMoveSpeed = moveSpeed;
+
         if (IsHaywireActive(HaywireType.ShipSpeedDoubled)) {
-            return moveSpeed * 2;
+            trueMoveSpeed = trueMoveSpeed * 2;
+        }
+        if (IsHaywireActive(HaywireType.ShipArmorWeightIncreased)) {
+            trueMoveSpeed = trueMoveSpeed / 2;
         }
 
-        return moveSpeed;
+        return trueMoveSpeed;
     }
 
     public bool IsHaywireActive(HaywireType type) {
@@ -138,5 +143,20 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
         }
 
         return haywires.IsActive(type);
+    }
+
+    public override void TakeDamage(float damage) {
+        if (damage <= 0) {
+            return;
+        }
+
+        float trueDamage = damage;
+        if (IsHaywireActive(HaywireType.ShipArmorWeightIncreased)) {
+            trueDamage = damage / 2;
+        }
+
+        health -= trueDamage;
+
+        if (health <= 0) Destroy(this.gameObject);
     }
 }

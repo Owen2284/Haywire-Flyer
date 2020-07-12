@@ -14,13 +14,11 @@ public class HaywireCollection
 
         // Generate
         List<HaywireDefinition> remainingHaywires = HaywireHelper.GetAllHaywires();
-        for (int i = 0; i < remainingHaywires.Count; i++) {
-            Debug.Log(remainingHaywires[i].Type);
-        }
 
         // Set active
+        Debug.Log(remainingHaywires.Sum(x => x.Chance));
         while (haywires.Count < haywireCount && remainingHaywires.Count > 0) {
-            int haywireNumber = UnityEngine.Random.Range(0, remainingHaywires.Select(x => x.Chance).Count());
+            int haywireNumber = UnityEngine.Random.Range(0, remainingHaywires.Sum(x => x.Chance));
 
             HaywireDefinition selectedHaywire = null;
             int chanceTracker = 0;
@@ -67,7 +65,8 @@ public static class HaywireHelper {
             new HaywireDefinition(HaywireType.ShipMovementVerticalOnly),
             new HaywireDefinition(HaywireType.ShipSpeedDoubled),
             new HaywireDefinition(HaywireType.ShipCannonsSpin),
-            new HaywireDefinition(HaywireType.ShipSpinUncontrollable)
+            new HaywireDefinition(HaywireType.ShipSpinUncontrollable),
+
         };
     }
 }
@@ -90,5 +89,6 @@ public enum HaywireType {
     ShipProjectilesWeighted = 5,   
     ShipCannonsBackwards = 6,
     ShipVisibilityReduced = 7,
-    ShipSpinUncontrollable = 8          // DONE
+    ShipSpinUncontrollable = 8,          // DONE
+    ShipArmorWeightIncreased = 9
 }

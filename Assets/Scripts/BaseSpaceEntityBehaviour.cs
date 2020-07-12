@@ -31,7 +31,7 @@ public class BaseSpaceEntityBehaviour : MonoBehaviour
         return Mathf.Max(health, 0);
     }
 
-    public void TakeDamage(float damage) {
+    public virtual void TakeDamage(float damage) {
         if (damage <= 0) {
             return;
         }
