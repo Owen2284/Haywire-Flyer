@@ -17,11 +17,15 @@ public class GameStateManager : MonoBehaviour
     public float secondsBetweenBosses;
     public float secondsBetweenHaywireIncreases;
 
-    public Text healthText;
-    public Text distanceText;
     public Text haywireText;
     public RectTransform haywireBar;
-    public Image progressTracker;
+
+    public RectTransform healthBar;
+
+    public RectTransform progressBarPanel;
+    public Transform progressIcon;
+    public Transform targetIcon;
+    public Sprite progressFullImage;
 
     private PlayerBehaviour player;
 
@@ -99,19 +103,28 @@ public class GameStateManager : MonoBehaviour
     }
 
     private void UpdateUI() {
-        float healthValue = (player.GetCurrentHealth() / player.maxHealth) * 100;
-            healthText.text = $"Current health: {healthValue}";
+        float healthFactor = player.GetCurrentHealth() / player.maxHealth;
+        healthBar.anchorMax = new Vector2(healthFactor, 1);
 
         if (finishState != null) {
             FinalizeUI(finishState.Value);
         }
         else {
             if (secondsToNextBoss > 0) {
-                float distanceFactor = secondsToNextBoss / secondsBetweenBosses;
-                distanceText.text = $"Distance to target: {((int)(distanceFactor * 10000))}";
+                float distanceFactor = 1 - (secondsToNextBoss / secondsBetweenBosses);
+                float start = 12.1f;
+                float end = targetIcon.transform.position.x - 10;
+                float newProgressX = start + ((end - start) * distanceFactor);
+                progressIcon.transform.position = new Vector3(
+                    newProgressX,
+                    progressIcon.transform.position.y,
+                    progressIcon.transform.position.z
+                );
             }
             else {
-                distanceText.text = "TARGET APPROACHING";
+                progressBarPanel.GetComponent<Image>().sprite = progressFullImage;
+                progressIcon.GetComponent<Image>().enabled = false;
+                targetIcon.GetComponent<Image>().enabled = false;
             }
 
             List<string> activeHaywiresText = GetActiveHaywiresText();
@@ -123,13 +136,11 @@ public class GameStateManager : MonoBehaviour
     }
 
     private void FinalizeUI(bool victory) {
-        haywireText.text = "";
-
         if (victory) {
-            distanceText.text = "VICTORY!";
+            haywireText.text = "All systems online";
         }
         else {
-            distanceText.text = "Defeat...";
+            haywireText.text = "All systems offline";
         }
     }
 
