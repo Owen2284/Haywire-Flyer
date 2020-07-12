@@ -28,7 +28,7 @@ public class BouncerEnemyBehaviour : BaseEnemyBehaviour
     protected override void HandleCollision(GameObject target) {
         base.HandleCollision(target);
 
-        if (target.tag == "Boundary") {
+        if (target.tag == "Boundary" || target.tag == "Enemy") {
             moveVector = new Vector2(moveVector.x, moveVector.y * -1);
         }
     }

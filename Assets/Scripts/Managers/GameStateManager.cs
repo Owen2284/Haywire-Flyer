@@ -297,6 +297,42 @@ public class GameStateManager : MonoBehaviour
                 new Vector2(5, -3)
             }
         });
+
+        // Two small walls, vertically stacked
+        waveDefinitions.Add(new WaveDefinition() {
+            positions = new List<Vector2> {
+                new Vector2(0, 4),
+                new Vector2(0, 3),
+                new Vector2(0, 2),
+                new Vector2(0, -2),
+                new Vector2(0, -3),
+                new Vector2(0, -4)
+            },
+            allowedEnemyTypes = new List<string> { "Gunner" }
+        });
+
+        // Two small walls, horizontally stacked
+        waveDefinitions.Add(new WaveDefinition() {
+            positions = new List<Vector2> {
+                new Vector2(0, -1),
+                new Vector2(0, 0),
+                new Vector2(0, 1),
+                new Vector2(2, -1),
+                new Vector2(2, 0),
+                new Vector2(2, 1)
+            },
+            allowedEnemyTypes = new List<string> { "Gunner", "Chaser" }
+        });
+
+        // One big wall
+
+        // < shape
+
+        // > shape
+
+        // \ shape
+
+        // / shape
     }
 
     private void SpawnWave() {
@@ -311,11 +347,15 @@ public class GameStateManager : MonoBehaviour
             enemyType = spawnableEnemies[1];
         } else {
             wave = waveDefinitions[Random.Range(0, waveDefinitions.Count)];
+            //wave = waveDefinitions[4];
 
             List<GameObject> allowedEnemies = spawnableEnemies
             .Where(x => !wave.allowedEnemyTypes.Any() 
                 || wave.allowedEnemyTypes.Contains(x.GetComponent<BaseEnemyBehaviour>().GetEnemyType()))
             .ToList();
+            foreach (var o in allowedEnemies) {
+                Debug.Log(o.GetComponent<BaseEnemyBehaviour>().GetEnemyType());
+            }
             enemyType = allowedEnemies[Random.Range(0, allowedEnemies.Count)].gameObject;
         }
 
