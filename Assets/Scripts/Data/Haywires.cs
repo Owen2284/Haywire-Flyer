@@ -31,7 +31,7 @@ public class HaywireCollection
             }
 
             haywires.Add(selectedHaywire.Type);
-            remainingHaywires.Add(selectedHaywire);
+            remainingHaywires.Remove(selectedHaywire);
         }
     }
 
@@ -67,7 +67,10 @@ public static class HaywireHelper {
             new HaywireDefinition(HaywireType.ShipCannonsSpin),
             new HaywireDefinition(HaywireType.ShipSpinUncontrollable),
             new HaywireDefinition(HaywireType.ShipArmorWeightIncreased),
-            new HaywireDefinition(HaywireType.ShipMovementVerticalUncontrollable)
+            new HaywireDefinition(HaywireType.ShipMovementVerticalUncontrollable),
+            new HaywireDefinition(HaywireType.ShipCannonsNonStop),
+            new HaywireDefinition(HaywireType.ShipProjectilesWeighted),
+            new HaywireDefinition(HaywireType.ShipCannonsBackwards)
         };
     }
 }
@@ -85,10 +88,10 @@ public enum HaywireType {
 ShipMovementVerticalOnly = 0,               // DONE
     ShipMovementVerticalUncontrollable = 1, // DONE
     ShipSpeedDoubled = 2,                   // DONE
-    ShipCannonsNonStop = 3,
+    ShipCannonsNonStop = 3,                 // DONE
     ShipCannonsSpin = 4,                    // DONE
-    ShipProjectilesWeighted = 5,   
-    ShipCannonsBackwards = 6,
+    ShipProjectilesWeighted = 5,            // DONE
+    ShipCannonsBackwards = 6,               // DONE
     ShipVisibilityReduced = 7,
     ShipSpinUncontrollable = 8,             // DONE
     ShipArmorWeightIncreased = 9            // DONE

@@ -345,16 +345,16 @@ MonoBehaviour:
   spawnableBosses:
   - {fileID: 3942650829711793472, guid: f354317ec9d26204e96e8d81cf33c02b, type: 3}
   spawnRoot: {x: 10, y: 0}
-  haywireTime: 5
+  haywireTime: 25
   haywireCount: 1
-  secondsBetweenWaves: 20
+  secondsBetweenWaves: 8
   secondsBetweenBosses: 240
   secondsBetweenHaywireIncreases: 119
   healthText: {fileID: 1003581446}
   distanceText: {fileID: 770602962}
   haywireText: {fileID: 1889458941}
   haywireBar: {fileID: 1792404489}
-  progressTracker: {fileID: 0}
+  progressTracker: {fileID: 459204859}
 --- !u!1 &373739819
 GameObject:
   m_ObjectHideFlags: 0

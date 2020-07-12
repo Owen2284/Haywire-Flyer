@@ -136,10 +136,10 @@ public class GameStateManager : MonoBehaviour
     void HandleHaywires() {
         secondsToNextHaywire -= Time.deltaTime;
         if (secondsToNextHaywire <= 0) {
-            //activeHaywires = new HaywireCollection(haywireCount);
-            activeHaywires = new HaywireCollection(new List<HaywireType> {
-                HaywireType.ShipCannonsNonStop
-            });
+            activeHaywires = new HaywireCollection(haywireCount);
+            // activeHaywires = new HaywireCollection(new List<HaywireType> {
+            //     HaywireType.ShipProjectilesWeighted
+            // });
             
             player.SetHaywires(activeHaywires);
 
@@ -174,20 +174,26 @@ public class GameStateManager : MonoBehaviour
         if (activeHaywires.IsActive(HaywireType.ShipSpeedDoubled)) {
             haywireTextList.Add("Ship speed doubled!");
         }
+        if (activeHaywires.IsActive(HaywireType.ShipMovementVerticalUncontrollable)) {
+            haywireTextList.Add("Ship steering uncontrollably!");
+        }
+        if (activeHaywires.IsActive(HaywireType.ShipCannonsBackwards)) {
+            haywireTextList.Add("Cannons firing backwards!");
+        }
         if (activeHaywires.IsActive(HaywireType.ShipCannonsSpin)) {
             haywireTextList.Add("Cannons rotating freely!");
+        }
+        if (activeHaywires.IsActive(HaywireType.ShipCannonsNonStop)) {
+            haywireTextList.Add("Cannons won't stop firing!");
         }
         if (activeHaywires.IsActive(HaywireType.ShipSpinUncontrollable)) {
             haywireTextList.Add("Ship spinning uncontrollably!");
         }
         if (activeHaywires.IsActive(HaywireType.ShipArmorWeightIncreased)) {
-            haywireTextList.Add("Armor weight increased!");
+            haywireTextList.Add("Armor drawing increased power!");
         }
-        if (activeHaywires.IsActive(HaywireType.ShipMovementVerticalUncontrollable)) {
-            haywireTextList.Add("Ship steering uncontrollably!");
-        }
-        if (activeHaywires.IsActive(HaywireType.ShipCannonsNonStop)) {
-            haywireTextList.Add("Cannons won't stop firing!");
+        if (activeHaywires.IsActive(HaywireType.ShipProjectilesWeighted)) {
+            haywireTextList.Add("Projectile targetting offline!");
         }
 
         return haywireTextList;

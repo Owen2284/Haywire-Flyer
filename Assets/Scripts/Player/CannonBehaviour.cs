@@ -25,7 +25,7 @@ public class CannonBehaviour : MonoBehaviour
         }
     }
 
-    public void FireCannon(bool backwards = false) {
+    public void FireCannon(bool backwards = false, bool weighted = false) {
         GameObject spawnedProjectile = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
 
         float trueFireSpeed = fireSpeed;
@@ -35,5 +35,9 @@ public class CannonBehaviour : MonoBehaviour
 
         Vector2 fireVelocity = new Vector2(trueFireSpeed, trueFireSpeed) * transform.up;
         spawnedProjectile.GetComponent<BaseProjectileBehaviour>().velocity = fireVelocity;
+
+        if (weighted) {
+            spawnedProjectile.GetComponent<Rigidbody2D>().gravityScale = Random.Range(-2f, 2f);
+        }
     }
 }

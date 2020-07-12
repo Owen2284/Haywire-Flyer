@@ -78,7 +78,11 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
         if (secondsToNextCannon <= 0 
         && (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0) || IsHaywireActive(HaywireType.ShipCannonsNonStop))) {
             CannonBehaviour currentCannon = cannons[nextCannon];
-            currentCannon.FireCannon();
+
+            bool backwards = IsHaywireActive(HaywireType.ShipCannonsBackwards);
+            bool weighted = IsHaywireActive(HaywireType.ShipProjectilesWeighted);
+
+            currentCannon.FireCannon(backwards, weighted);
 
             secondsToNextCannon = GetCannonCooldownTime();
             nextCannon += 1;
@@ -120,7 +124,6 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
     private float GetCannonCooldownTime() {
         // Speed up guns for some haywires
         if (IsHaywireActive(HaywireType.ShipCannonsSpin)
-            || IsHaywireActive(HaywireType.ShipProjectilesWeighted)
             || IsHaywireActive(HaywireType.ShipCannonsNonStop)) {
             return cannonCooldownTime / 2;
         }
