@@ -171,26 +171,11 @@ public class GameStateManager : MonoBehaviour
         if (activeHaywires.IsActive(HaywireType.ShipMovementVerticalOnly)) {
             haywireTextList.Add("Ship forward thrust offline!");
         }
-        if (activeHaywires.IsActive(HaywireType.ShipMovementPong)) {
-            haywireTextList.Add("Ship thrust firing at random!");
-        }
         if (activeHaywires.IsActive(HaywireType.ShipSpeedDoubled)) {
             haywireTextList.Add("Ship speed doubled!");
         }
-        if (activeHaywires.IsActive(HaywireType.ShipCannonsNonStop)) {
-            haywireTextList.Add("Cannons firing non-stop!");
-        }
         if (activeHaywires.IsActive(HaywireType.ShipCannonsSpin)) {
             haywireTextList.Add("Cannons rotating freely!");
-        }
-        if (activeHaywires.IsActive(HaywireType.ShipProjectilesWeighted)) {
-            haywireTextList.Add("Cannon targeting failure!");
-        }
-        if (activeHaywires.IsActive(HaywireType.ShipProjectilesPersistent)) {
-            haywireTextList.Add("Projectiles not disappearing!");
-        }
-        if (activeHaywires.IsActive(HaywireType.ShipVisibilityReduced)) {
-            haywireTextList.Add("Visibility reduced!");
         }
         if (activeHaywires.IsActive(HaywireType.ShipSpinUncontrollable)) {
             haywireTextList.Add("Ship spinning uncontrollably!");

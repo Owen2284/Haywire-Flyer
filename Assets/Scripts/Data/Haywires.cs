@@ -13,19 +13,13 @@ public class HaywireCollection
         haywires = new List<HaywireType>();
 
         // Generate
-        List<HaywireDefinition> remainingHaywires = new List<HaywireDefinition>();
-        IEnumerable<HaywireType> types = Enum.GetValues(typeof(HaywireType)).Cast<HaywireType>();
-        foreach (HaywireType type in types) {
-            remainingHaywires.Add(
-                new HaywireDefinition {
-                    Type = type,
-                    Chance = type == HaywireType.ShipVisibilityReduced ? 1 : 2
-                }
-            );
+        List<HaywireDefinition> remainingHaywires = HaywireHelper.GetAllHaywires();
+        for (int i = 0; i < remainingHaywires.Count; i++) {
+            Debug.Log(remainingHaywires[i].Type);
         }
 
         // Set active
-        while (haywires.Count < haywireCount) {
+        while (haywires.Count < haywireCount && remainingHaywires.Count > 0) {
             int haywireNumber = UnityEngine.Random.Range(0, remainingHaywires.Select(x => x.Chance).Count());
 
             HaywireDefinition selectedHaywire = null;
@@ -67,19 +61,34 @@ public class HaywireCollection
     public int TotalHaywires => haywires.Count;
 }
 
+public static class HaywireHelper {
+    public static List<HaywireDefinition> GetAllHaywires() {
+        return new List<HaywireDefinition> {
+            new HaywireDefinition(HaywireType.ShipMovementVerticalOnly),
+            new HaywireDefinition(HaywireType.ShipSpeedDoubled),
+            new HaywireDefinition(HaywireType.ShipCannonsSpin),
+            new HaywireDefinition(HaywireType.ShipSpinUncontrollable)
+        };
+    }
+}
+
 public class HaywireDefinition {
+    public HaywireDefinition(HaywireType type) {
+        Type = type;
+    }
+
     public HaywireType Type;
-    public int Chance;
+    public int Chance = 2;
 }
 
 public enum HaywireType {
-    ShipMovementVerticalOnly = 0,
+    ShipMovementVerticalOnly = 0,       // DONE
     ShipMovementPong = 1,
-    ShipSpeedDoubled = 2,
+    ShipSpeedDoubled = 2,               // DONE
     ShipCannonsNonStop = 3,
-    ShipCannonsSpin = 4,
-    ShipProjectilesWeighted = 5,
-    ShipProjectilesPersistent = 6,
+    ShipCannonsSpin = 4,                // DONE
+    ShipProjectilesWeighted = 5,   
+    ShipCannonsBackwards = 6,
     ShipVisibilityReduced = 7,
-    ShipSpinUncontrollable = 8
+    ShipSpinUncontrollable = 8          // DONE
 }
