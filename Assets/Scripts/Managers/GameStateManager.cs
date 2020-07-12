@@ -132,6 +132,12 @@ public class GameStateManager : MonoBehaviour
         secondsToNextHaywire -= Time.deltaTime;
         if (secondsToNextHaywire <= 0) {
             activeHaywires = new HaywireCollection(haywireCount);
+            // activeHaywires = new HaywireCollection(new List<HaywireType> {
+            //     HaywireType.ShipSpeedDoubled
+            // });
+            
+            player.SetHaywires(activeHaywires);
+
             secondsToNextHaywire = haywireTime;
         }
 
@@ -246,7 +252,6 @@ public class GameStateManager : MonoBehaviour
         // Spawn all the enemies
         foreach (Vector2 position in wave.positions) {
             GameObject enemy = (GameObject)Instantiate(enemyType, position + spawnRoot, rotation);
-            //BaseEnemyBehaviour enemyBehaviour = enemy.GetComponent<BaseEnemyBehaviour>();
         }
     }
 }

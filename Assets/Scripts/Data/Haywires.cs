@@ -7,19 +7,18 @@ using UnityEngine;
 
 public class HaywireCollection
 {
-    private List<Haywire> haywires;
+    private List<HaywireType> haywires;
 
     public HaywireCollection(int haywireCount) {
-        haywires = new List<Haywire>();
+        haywires = new List<HaywireType>();
 
         // Generate
-        List<Haywire> remainingHaywires = new List<Haywire>();
+        List<HaywireDefinition> remainingHaywires = new List<HaywireDefinition>();
         IEnumerable<HaywireType> types = Enum.GetValues(typeof(HaywireType)).Cast<HaywireType>();
         foreach (HaywireType type in types) {
             remainingHaywires.Add(
-                new Haywire {
+                new HaywireDefinition {
                     Type = type,
-                    Active = false,
                     Chance = type == HaywireType.ShipVisibilityReduced ? 1 : 2
                 }
             );
@@ -29,9 +28,9 @@ public class HaywireCollection
         while (haywires.Count < haywireCount) {
             int haywireNumber = UnityEngine.Random.Range(0, remainingHaywires.Select(x => x.Chance).Count());
 
-            Haywire selectedHaywire = null;
+            HaywireDefinition selectedHaywire = null;
             int chanceTracker = 0;
-            foreach (Haywire h in remainingHaywires) {
+            foreach (HaywireDefinition h in remainingHaywires) {
                 selectedHaywire = h;
                 chanceTracker += h.Chance;
                 if (chanceTracker > haywireNumber) {
@@ -39,46 +38,37 @@ public class HaywireCollection
                 }
             }
 
-            selectedHaywire.Active = true;
-            haywires.Add(selectedHaywire);
+            haywires.Add(selectedHaywire.Type);
             remainingHaywires.Add(selectedHaywire);
         }
+    }
 
-        foreach (Haywire h in haywires) {
-            Debug.Log(h.Type);
-        }
-
-        Debug.Log(TotalHaywires);
+    public HaywireCollection(List<HaywireType> types) {
+        haywires = types;
     }
 
     public bool IsActive(HaywireType type) {
-        Haywire haywire = haywires.Find(x => x.Type == type);
-        if (haywire == null) {
-            return false;
-        }
-
-        return haywire.Active;
+        return haywires.Contains(type);
     }
 
     public void SetActive(HaywireType type, bool active = true) {
-        Haywire haywire = haywires.Find(x => x.Type == type);
-        if (haywire == null) {
+        // If active is false, remove and return
+        if (!active) {
+            haywires.Remove(type);
             return;
         }
 
-        haywire.Active = active;
-    }
-
-    public int TotalHaywires {
-        get {
-            return haywires.Where(x => x.Active).Count();
+        // Else, add if not present
+        if (!haywires.Contains(type)) {
+            haywires.Add(type);
         }
     }
+
+    public int TotalHaywires => haywires.Count;
 }
 
-public class Haywire {
+public class HaywireDefinition {
     public HaywireType Type;
-    public bool Active;
     public int Chance;
 }
 

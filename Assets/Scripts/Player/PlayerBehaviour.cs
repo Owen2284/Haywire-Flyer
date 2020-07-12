@@ -13,6 +13,8 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
     private int nextCannon;
     private float secondsToNextCannon;
 
+    private HaywireCollection haywires;
+
     // Start is called before the first frame update
     new void Start()
     {
@@ -37,8 +39,13 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
     void HandleMovement() {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
+        if (IsHaywireActive(HaywireType.ShipMovementVerticalOnly)) {
+            h = 0;
+        }
 
-        body.velocity = new Vector2(h * moveSpeed, v * moveSpeed);
+        float trueMoveSpeed = GetMoveSpeed();
+
+        body.velocity = new Vector2(h * trueMoveSpeed, v * trueMoveSpeed);
     }
 
     void HandleRotation() {
@@ -57,7 +64,7 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
             CannonBehaviour currentCannon = cannons[nextCannon];
             currentCannon.FireCannon();
 
-            secondsToNextCannon = cannonCooldownTime;
+            secondsToNextCannon = GetCannonCooldownTime();
             nextCannon += 1;
             if (nextCannon >= cannons.Count) nextCannon = 0;
         }
@@ -74,5 +81,42 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
 
             if (health <= 0) Destroy(this.gameObject);
         }
+    }
+
+    public void SetHaywires(HaywireCollection h) {
+        haywires = h;
+    }
+
+    private float GetCannonCooldownTime() {
+        // Speed up guns for some haywires
+        if (IsHaywireActive(HaywireType.ShipCannonsSpin)
+            || IsHaywireActive(HaywireType.ShipProjectilesWeighted)
+            || IsHaywireActive(HaywireType.ShipCannonsNonStop)) {
+            return cannonCooldownTime / 2;
+        }
+        
+        if (IsHaywireActive(HaywireType.ShipMovementVerticalOnly)
+            || IsHaywireActive(HaywireType.ShipSpinUncontrollable)
+            || IsHaywireActive(HaywireType.ShipMovementPong)) {
+            return (2 * cannonCooldownTime) / 3;
+        }
+
+        return cannonCooldownTime;
+    }
+
+    private float GetMoveSpeed() {
+        if (IsHaywireActive(HaywireType.ShipSpeedDoubled)) {
+            return moveSpeed * 2;
+        }
+
+        return moveSpeed;
+    }
+
+    private bool IsHaywireActive(HaywireType type) {
+        if (haywires == null || haywires.TotalHaywires == 0) {
+            return false;
+        }
+
+        return haywires.IsActive(type);
     }
 }
