@@ -264,5 +264,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 2516863276070522177, guid: af53a86f40ed454429485edd7b2dd7b9,
     type: 3}
-  fireSpeed: -5
+  fireSpeed: -4
   facePlayer: 1

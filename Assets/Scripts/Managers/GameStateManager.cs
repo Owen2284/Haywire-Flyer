@@ -34,6 +34,8 @@ public class GameStateManager : MonoBehaviour
     public Text resultsHeading;
     public Text resultsBody;
 
+    public AudioSource haywireSound;
+
     private PlayerBehaviour player;
 
     private float secondsToNextWave;
@@ -196,6 +198,8 @@ public class GameStateManager : MonoBehaviour
                 
                 player.SetHaywires(activeHaywires);
 
+                haywireSound.Play();
+
                 secondsToNextHaywire = haywireTime;
             }
 
@@ -325,6 +329,18 @@ public class GameStateManager : MonoBehaviour
         });
 
         // One big wall
+        waveDefinitions.Add(new WaveDefinition() {
+            positions = new List<Vector2> {
+                new Vector2(-1, 3),
+                new Vector2(-1, 2),
+                new Vector2(-1, 1),
+                new Vector2(-1, 0),
+                new Vector2(-1, -1),
+                new Vector2(-1, -2),
+                new Vector2(-1, -3)
+            },
+            allowedEnemyTypes = new List<string> { "Gunner", "Chaser" }
+        });
 
         // < shape
 
@@ -347,7 +363,7 @@ public class GameStateManager : MonoBehaviour
             enemyType = spawnableEnemies[1];
         } else {
             wave = waveDefinitions[Random.Range(0, waveDefinitions.Count)];
-            //wave = waveDefinitions[4];
+            //wave = waveDefinitions[5];
 
             List<GameObject> allowedEnemies = spawnableEnemies
             .Where(x => !wave.allowedEnemyTypes.Any() 

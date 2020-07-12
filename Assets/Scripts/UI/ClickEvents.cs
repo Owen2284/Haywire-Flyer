@@ -31,7 +31,12 @@ public class ClickEvents : MonoBehaviour
             + "Music:\n" 
             + "Son of a Rocket by Kevin MacLeod\n"
             + "Link: https://incompetech.filmmusic.io/song/4391-son-of-a-rocket\n"
-            + "License: http://creativecommons.org/licenses/by/4.0/\n";
+            + "License: http://creativecommons.org/licenses/by/4.0/\n"
+            + "\n"
+            + "SFX:\n"
+            + "Flash Animation Sound by BlastwaveFx.com\n"
+            + "Link: http://soundbible.com/602-Flash-Animation.html\n"
+            + "License: http://creativecommons.org/licenses/by/3.0/\n";
     }
 
     public void MenuButton() {
