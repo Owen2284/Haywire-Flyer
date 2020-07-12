@@ -331,24 +331,93 @@ public class GameStateManager : MonoBehaviour
         // One big wall
         waveDefinitions.Add(new WaveDefinition() {
             positions = new List<Vector2> {
-                new Vector2(-1, 3),
-                new Vector2(-1, 2),
-                new Vector2(-1, 1),
-                new Vector2(-1, 0),
-                new Vector2(-1, -1),
-                new Vector2(-1, -2),
-                new Vector2(-1, -3)
+                new Vector2(1, 2),
+                new Vector2(1, 1),
+                new Vector2(1, 0),
+                new Vector2(1, -1),
+                new Vector2(1, -2)
             },
             allowedEnemyTypes = new List<string> { "Gunner", "Chaser" }
         });
 
         // < shape
+        waveDefinitions.Add(new WaveDefinition() {
+            positions = new List<Vector2> {
+                new Vector2(3, 3),
+                new Vector2(1.5f, 2),
+                new Vector2(0, 1),
+                new Vector2(0, -1),
+                new Vector2(1.5f, -2),
+                new Vector2(3, -3)
+            },
+            allowedEnemyTypes = new List<string> { "Gunner", "Chaser" }
+        });
 
         // > shape
+        waveDefinitions.Add(new WaveDefinition() {
+            positions = new List<Vector2> {
+                new Vector2(3, 1),
+                new Vector2(1.5f, 2),
+                new Vector2(0, 3),
+                new Vector2(0, -3),
+                new Vector2(1.5f, -2),
+                new Vector2(3, -1)
+            },
+            allowedEnemyTypes = new List<string> { "Gunner", "Chaser" }
+        });
 
         // \ shape
+        waveDefinitions.Add(new WaveDefinition() {
+            positions = new List<Vector2> {
+                new Vector2(0, -2),
+                new Vector2(1, -1),
+                new Vector2(2, 0),
+                new Vector2(3, 1),
+                new Vector2(4, 2)
+            }
+        });
+
 
         // / shape
+        waveDefinitions.Add(new WaveDefinition() {
+            positions = new List<Vector2> {
+                new Vector2(0, 2),
+                new Vector2(1, 1),
+                new Vector2(2, 0),
+                new Vector2(3, -1),
+                new Vector2(4, -2)
+            }
+        });
+
+        // Two rows
+        waveDefinitions.Add(new WaveDefinition() {
+            positions = new List<Vector2> {
+                new Vector2(0, 3),
+                new Vector2(1, 3),
+                new Vector2(2, 3),
+                new Vector2(3, 3),
+                new Vector2(0, -3),
+                new Vector2(1, -3),
+                new Vector2(2, -3),
+                new Vector2(3, -3),
+            }, 
+            allowedEnemyTypes = new List<string> { "Gunner", "Chaser" }
+        });
+
+        // Alternating rows
+        waveDefinitions.Add(new WaveDefinition() {
+            positions = new List<Vector2> {
+                new Vector2(0, 3),
+                new Vector2(1, -3),
+                new Vector2(2, 3),
+                new Vector2(3, -3),
+                new Vector2(4, 3),
+                new Vector2(5, -3),
+                new Vector2(6, 3),
+                new Vector2(7, -3),
+            }
+        });
+
     }
 
     private void SpawnWave() {
@@ -363,7 +432,6 @@ public class GameStateManager : MonoBehaviour
             enemyType = spawnableEnemies[1];
         } else {
             wave = waveDefinitions[Random.Range(0, waveDefinitions.Count)];
-            //wave = waveDefinitions[5];
 
             List<GameObject> allowedEnemies = spawnableEnemies
             .Where(x => !wave.allowedEnemyTypes.Any() 
