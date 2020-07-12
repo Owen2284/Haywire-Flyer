@@ -35,8 +35,7 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
 
         spriteRenderers = new List<SpriteRenderer>() { GetComponent<SpriteRenderer>() };
         spriteRenderers.AddRange(cannons.Select(x => x.gameObject.GetComponent<SpriteRenderer>()));
-        Debug.Log(spriteRenderers);
-
+        
         invulnerabilityTimeRemaining = 0;
 
         haywireVerticalMovementUncontrollableFactor = 1;
