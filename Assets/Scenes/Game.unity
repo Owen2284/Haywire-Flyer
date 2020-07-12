@@ -341,6 +341,7 @@ MonoBehaviour:
   spawnableEnemies:
   - {fileID: 3806369103906133131, guid: 5edc615d64e6de24c91660bc06e82e0c, type: 3}
   - {fileID: 7156486182214465311, guid: 505f8ade6d5ecc0499e0dae86fb91e93, type: 3}
+  - {fileID: 652141666894446947, guid: 187e8037713b48e45a83a8467961c1fb, type: 3}
   spawnableBosses:
   - {fileID: 3942650829711793472, guid: f354317ec9d26204e96e8d81cf33c02b, type: 3}
   spawnRoot: {x: 10, y: 0}
