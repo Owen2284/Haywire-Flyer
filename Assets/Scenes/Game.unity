@@ -429,8 +429,8 @@ MonoBehaviour:
   haywireText: {fileID: 1889458941}
   haywireBar: {fileID: 1792404489}
   healthBar: {fileID: 1987182040}
-  bossHealthBarPanel: {fileID: 0}
-  bossHealthBar: {fileID: 0}
+  bossHealthBarPanel: {fileID: 125693362}
+  bossHealthBar: {fileID: 470516534}
   progressBarPanel: {fileID: 1643306666}
   progressIcon: {fileID: 1994442841}
   targetIcon: {fileID: 459204858}

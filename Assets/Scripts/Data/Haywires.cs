@@ -9,11 +9,15 @@ public class HaywireCollection
 {
     private List<HaywireType> haywires;
 
-    public HaywireCollection(int haywireCount) {
+    public HaywireCollection(int haywireCount, List<HaywireType> excludedTypes = null) {
         haywires = new List<HaywireType>();
+        if (excludedTypes == null) {
+            excludedTypes = new List<HaywireType>();
+        }
 
         // Generate
         List<HaywireDefinition> remainingHaywires = HaywireHelper.GetAllHaywires();
+        remainingHaywires.RemoveAll(x => excludedTypes.Contains(x.Type));
 
         // Set active
         while (haywires.Count < haywireCount && remainingHaywires.Count > 0) {
@@ -53,6 +57,10 @@ public class HaywireCollection
         if (!haywires.Contains(type)) {
             haywires.Add(type);
         }
+    }
+
+    public List<HaywireType> GetAllActiveHaywires() {
+        return haywires;
     }
 
     public int TotalHaywires => haywires.Count;

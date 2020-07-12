@@ -188,7 +188,7 @@ public class GameStateManager : MonoBehaviour
         if (finishState == null) {
             secondsToNextHaywire -= Time.deltaTime;
             if (secondsToNextHaywire <= 0) {
-                activeHaywires = new HaywireCollection(haywireCount);
+                activeHaywires = new HaywireCollection(haywireCount, activeHaywires?.GetAllActiveHaywires());
                 
                 player.SetHaywires(activeHaywires);
 
