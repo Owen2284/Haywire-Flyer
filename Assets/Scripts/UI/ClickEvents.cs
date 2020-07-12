@@ -18,7 +18,7 @@ public class ClickEvents : MonoBehaviour
 
     public void ControlsButton() {
         textField.text = "Time to fly!\n\n"
-            + "Pilot your ship though waves of enemies while coping with faulty systems, and defeat the boss!"
+            + "Pilot your ship though waves of enemies while coping with faulty systems, and defeat the boss!\n\n"
             + "WASD / Arrow Keys = Move\n" 
             + "Space / Left Mouse Click = Fire\n" 
             + "Move Mouse cursor = Aim / Rotate";
