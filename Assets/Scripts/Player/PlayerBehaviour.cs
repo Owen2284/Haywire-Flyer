@@ -75,7 +75,8 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
             secondsToNextCannon -= Time.deltaTime;
         }
 
-        if (secondsToNextCannon <= 0 && (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0))) {
+        if (secondsToNextCannon <= 0 
+        && (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0) || IsHaywireActive(HaywireType.ShipCannonsNonStop))) {
             CannonBehaviour currentCannon = cannons[nextCannon];
             currentCannon.FireCannon();
 

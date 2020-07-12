@@ -138,7 +138,7 @@ public class GameStateManager : MonoBehaviour
         if (secondsToNextHaywire <= 0) {
             //activeHaywires = new HaywireCollection(haywireCount);
             activeHaywires = new HaywireCollection(new List<HaywireType> {
-                HaywireType.ShipMovementVerticalUncontrollable
+                HaywireType.ShipCannonsNonStop
             });
             
             player.SetHaywires(activeHaywires);
@@ -185,6 +185,9 @@ public class GameStateManager : MonoBehaviour
         }
         if (activeHaywires.IsActive(HaywireType.ShipMovementVerticalUncontrollable)) {
             haywireTextList.Add("Ship steering uncontrollably!");
+        }
+        if (activeHaywires.IsActive(HaywireType.ShipCannonsNonStop)) {
+            haywireTextList.Add("Cannons won't stop firing!");
         }
 
         return haywireTextList;

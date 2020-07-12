@@ -82,14 +82,14 @@ public class HaywireDefinition {
 }
 
 public enum HaywireType {
-    ShipMovementVerticalOnly = 0,       // DONE
-    ShipMovementVerticalUncontrollable = 1,
-    ShipSpeedDoubled = 2,               // DONE
+ShipMovementVerticalOnly = 0,               // DONE
+    ShipMovementVerticalUncontrollable = 1, // DONE
+    ShipSpeedDoubled = 2,                   // DONE
     ShipCannonsNonStop = 3,
-    ShipCannonsSpin = 4,                // DONE
+    ShipCannonsSpin = 4,                    // DONE
     ShipProjectilesWeighted = 5,   
     ShipCannonsBackwards = 6,
     ShipVisibilityReduced = 7,
-    ShipSpinUncontrollable = 8,         // DONE
-    ShipArmorWeightIncreased = 9        // DONE
+    ShipSpinUncontrollable = 8,             // DONE
+    ShipArmorWeightIncreased = 9            // DONE
 }
