@@ -9,7 +9,9 @@ public class ClickEvents : MonoBehaviour
     public Text textField;
 
     void Start() {
-        ControlsButton();
+        if (textField != null) {
+            ControlsButton();
+        }
     }
 
     public void PlayButton() {
@@ -30,5 +32,9 @@ public class ClickEvents : MonoBehaviour
             + "Son of a Rocket by Kevin MacLeod\n"
             + "Link: https://incompetech.filmmusic.io/song/4391-son-of-a-rocket\n"
             + "License: http://creativecommons.org/licenses/by/4.0/\n";
+    }
+
+    public void MenuButton() {
+        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
     }
 }

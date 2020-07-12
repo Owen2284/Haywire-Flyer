@@ -27,6 +27,10 @@ public class GameStateManager : MonoBehaviour
     public Transform targetIcon;
     public Sprite progressFullImage;
 
+    public RectTransform resultsPanel;
+    public Text resultsHeading;
+    public Text resultsBody;
+
     private PlayerBehaviour player;
 
     private float secondsToNextWave;
@@ -37,6 +41,8 @@ public class GameStateManager : MonoBehaviour
     private bool bossSpawned;
     private bool? finishState;
 
+    private int score;
+
     private List<WaveDefinition> waveDefinitions;
 
     private HaywireCollection activeHaywires;
@@ -44,6 +50,8 @@ public class GameStateManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        resultsPanel.gameObject.SetActive(false);
+
         player = GameObject.FindWithTag("Player").GetComponent<PlayerBehaviour>();
 
         secondsToNextWave = 0;
@@ -69,8 +77,9 @@ public class GameStateManager : MonoBehaviour
         int enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
         int bossCount = GameObject.FindGameObjectsWithTag("Boss").Length;
 
-        if (bossSpawned && bossCount == 0 && enemyCount == 0) {
+        if (bossSpawned && bossCount == 0) {
             finishState = true;
+            DestroyRemainingEnemies();
         }
         else if (player == null) {
             finishState = false;
@@ -136,11 +145,17 @@ public class GameStateManager : MonoBehaviour
     }
 
     private void FinalizeUI(bool victory) {
+        resultsPanel.gameObject.SetActive(true);
+        resultsBody.text = $"Final Score: {score}";
+
         if (victory) {
             haywireText.text = "All systems online";
+            resultsHeading.text = "Victory!";
+            resultsBody.text += "\n\nThanks for playing!";
         }
         else {
             haywireText.text = "All systems offline";
+            resultsHeading.text = "Defeat...";
         }
     }
 
@@ -283,5 +298,21 @@ public class GameStateManager : MonoBehaviour
 
         // Set state variable
         bossSpawned = true;
+    }
+
+    public void IncrementScore(int value) {
+        score += value;
+    }
+
+    private void DestroyRemainingEnemies() {
+        List<GameObject> enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+        foreach (GameObject enemy in enemies) {
+            Destroy(enemy);
+        }
+
+        List<GameObject> projectiles = GameObject.FindGameObjectsWithTag("EnemyProjectile").ToList();
+        foreach (GameObject projectile in projectiles) {
+            Destroy(projectile);
+        }
     }
 }

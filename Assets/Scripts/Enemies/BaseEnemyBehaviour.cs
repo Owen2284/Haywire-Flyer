@@ -18,6 +18,8 @@ public class BaseEnemyBehaviour : BaseSpaceEntityBehaviour
 
     public float cannonCooldownTime;
 
+    public float score = 100;
+
     // Start is called before the first frame update
     private new void Start()
     {
