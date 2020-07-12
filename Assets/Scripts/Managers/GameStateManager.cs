@@ -437,9 +437,6 @@ public class GameStateManager : MonoBehaviour
             .Where(x => !wave.allowedEnemyTypes.Any() 
                 || wave.allowedEnemyTypes.Contains(x.GetComponent<BaseEnemyBehaviour>().GetEnemyType()))
             .ToList();
-            foreach (var o in allowedEnemies) {
-                Debug.Log(o.GetComponent<BaseEnemyBehaviour>().GetEnemyType());
-            }
             enemyType = allowedEnemies[Random.Range(0, allowedEnemies.Count)].gameObject;
         }
 
