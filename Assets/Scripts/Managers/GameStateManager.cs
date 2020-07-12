@@ -22,6 +22,9 @@ public class GameStateManager : MonoBehaviour
 
     public RectTransform healthBar;
 
+    public RectTransform bossHealthBarPanel;
+    public RectTransform bossHealthBar;
+
     public RectTransform progressBarPanel;
     public Transform progressIcon;
     public Transform targetIcon;
@@ -53,6 +56,7 @@ public class GameStateManager : MonoBehaviour
     void Start()
     {
         resultsPanel.gameObject.SetActive(false);
+        bossHealthBarPanel.gameObject.SetActive(false);
 
         player = GameObject.FindWithTag("Player").GetComponent<PlayerBehaviour>();
 
@@ -145,6 +149,21 @@ public class GameStateManager : MonoBehaviour
 
             haywireText.text = string.Join("\n", activeHaywiresText);
             haywireBar.anchorMax = new Vector2(haywireFactor, 1);
+
+            if (bossSpawned) {
+                GameObject boss = GameObject.FindWithTag("Boss");
+                if (boss != null) {
+                    bossHealthBarPanel.gameObject.SetActive(true);
+
+                    FirstBossBehaviour bossBehaviour = boss.GetComponent<FirstBossBehaviour>();
+                    float bossHealthFactor = bossBehaviour.GetCurrentHealth() / bossBehaviour.maxHealth;
+
+                    bossHealthBar.anchorMax = new Vector2(bossHealthFactor, 1);
+                }
+                else {
+                    bossHealthBarPanel.gameObject.SetActive(false);
+                }
+            }
         }
     }
 
@@ -157,6 +176,7 @@ public class GameStateManager : MonoBehaviour
             resultsHeading.text = "Victory!";
             resultsBody.text += "\n\nThanks for playing!";
             haywireBar.anchorMax = new Vector2(0, 0);
+            bossHealthBarPanel.gameObject.SetActive(false);
         }
         else {
             haywireText.text = "All systems offline";
