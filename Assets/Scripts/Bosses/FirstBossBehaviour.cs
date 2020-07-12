@@ -9,7 +9,7 @@ public class FirstBossBehaviour : BaseEnemyBehaviour
     private bool up;
 
     protected override void Setup() {
-        secondsToNextCannon = cannonCooldownTime + (Random.Range(0, 0.25f) * cannonCooldownTime);
+        secondsToNextCannon = GetCannonCooldownTime();
 
         up = true;
     }
@@ -26,11 +26,12 @@ public class FirstBossBehaviour : BaseEnemyBehaviour
                 up = true;
             }
 
+            float powerFactor = GetPowerFactor();
             if (up) {
-                body.velocity = strafeVector;
+                body.velocity = strafeVector * powerFactor;
             }
             else {
-                body.velocity = strafeVector * -1;
+                body.velocity = strafeVector * -1 * powerFactor;
             }
         }
     }
@@ -45,10 +46,27 @@ public class FirstBossBehaviour : BaseEnemyBehaviour
                 CannonBehaviour currentCannon = cannons[nextCannon];
                 currentCannon.FireCannon();
 
-                secondsToNextCannon = cannonCooldownTime + (Random.Range(0, 0.25f) * cannonCooldownTime);
+                secondsToNextCannon = GetCannonCooldownTime();
                 nextCannon += 1;
                 if (nextCannon >= cannons.Count) nextCannon = 0;
             }
         }
+    }
+
+    private float GetPowerFactor() {
+        float healthFactor = health / maxHealth;
+
+        if (healthFactor <= 0.25) {
+            return 2f;
+        }
+        else if (healthFactor <= 0.5) {
+            return 1.5f;
+        }
+
+        return 1f;
+    }
+
+    private float GetCannonCooldownTime() {
+        return (cannonCooldownTime + (Random.Range(0, 0.25f) * cannonCooldownTime)) / GetPowerFactor();
     }
 }

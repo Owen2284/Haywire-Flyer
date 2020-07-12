@@ -97,6 +97,7 @@ MonoBehaviour:
   projectile: {fileID: 2516863276070522177, guid: af53a86f40ed454429485edd7b2dd7b9,
     type: 3}
   fireSpeed: 5
+  facePlayer: 0
 --- !u!1 &3942650828547490946
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,6 +195,7 @@ MonoBehaviour:
   projectile: {fileID: 2516863276070522177, guid: af53a86f40ed454429485edd7b2dd7b9,
     type: 3}
   fireSpeed: 5
+  facePlayer: 0
 --- !u!1 &3942650829244507850
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +293,7 @@ MonoBehaviour:
   projectile: {fileID: 2516863276070522177, guid: af53a86f40ed454429485edd7b2dd7b9,
     type: 3}
   fireSpeed: 5
+  facePlayer: 0
 --- !u!1 &3942650829711793472
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,6 +461,7 @@ MonoBehaviour:
   moveVector: {x: -3, y: 0}
   rotatation: 0
   cannonCooldownTime: 0.5
+  score: 20000
   strafeVector: {x: 0, y: 3}
 --- !u!1 &3942650829919503948
 GameObject:
@@ -556,3 +560,4 @@ MonoBehaviour:
   projectile: {fileID: 2516863276070522177, guid: af53a86f40ed454429485edd7b2dd7b9,
     type: 3}
   fireSpeed: 5
+  facePlayer: 0
