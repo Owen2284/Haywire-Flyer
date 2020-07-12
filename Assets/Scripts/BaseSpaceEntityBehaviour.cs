@@ -30,14 +30,4 @@ public class BaseSpaceEntityBehaviour : MonoBehaviour
     public float GetCurrentHealth() {
         return Mathf.Max(health, 0);
     }
-
-    public virtual void TakeDamage(float damage) {
-        if (damage <= 0) {
-            return;
-        }
-
-        health -= damage;
-
-        if (health <= 0) Destroy(this.gameObject);
-    }
 }

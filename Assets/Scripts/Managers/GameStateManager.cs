@@ -152,6 +152,7 @@ public class GameStateManager : MonoBehaviour
             haywireText.text = "All systems online";
             resultsHeading.text = "Victory!";
             resultsBody.text += "\n\nThanks for playing!";
+            haywireBar.anchorMax = new Vector2(0, 0);
         }
         else {
             haywireText.text = "All systems offline";
@@ -160,25 +161,28 @@ public class GameStateManager : MonoBehaviour
     }
 
     void HandleHaywires() {
-        secondsToNextHaywire -= Time.deltaTime;
-        if (secondsToNextHaywire <= 0) {
-            activeHaywires = new HaywireCollection(haywireCount);
-            // activeHaywires = new HaywireCollection(new List<HaywireType> {
-            //     HaywireType.ShipProjectilesWeighted
-            // });
-            
-            player.SetHaywires(activeHaywires);
+        if (finishState == null) {
+            secondsToNextHaywire -= Time.deltaTime;
+            if (secondsToNextHaywire <= 0) {
+                activeHaywires = new HaywireCollection(haywireCount);
+                
+                player.SetHaywires(activeHaywires);
 
-            secondsToNextHaywire = haywireTime;
-        }
-
-        secondsToNextHaywireIncrease -= Time.deltaTime;
-        if (secondsToNextHaywireIncrease <= 0) {
-            if (haywireCount < 3) {
-                ++haywireCount;
+                secondsToNextHaywire = haywireTime;
             }
 
-            secondsToNextHaywireIncrease = secondsBetweenHaywireIncreases;
+            secondsToNextHaywireIncrease -= Time.deltaTime;
+            if (secondsToNextHaywireIncrease <= 0) {
+                if (haywireCount < 3) {
+                    ++haywireCount;
+                }
+
+                secondsToNextHaywireIncrease = secondsBetweenHaywireIncreases;
+            }
+        }
+        else {
+            activeHaywires = new HaywireCollection(0);
+            player.SetHaywires(activeHaywires);
         }
     }
 

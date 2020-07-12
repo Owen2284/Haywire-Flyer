@@ -35,7 +35,7 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
 
         spriteRenderers = new List<SpriteRenderer>() { GetComponent<SpriteRenderer>() };
         spriteRenderers.AddRange(cannons.Select(x => x.gameObject.GetComponent<SpriteRenderer>()));
-        
+
         invulnerabilityTimeRemaining = 0;
 
         haywireVerticalMovementUncontrollableFactor = 1;
@@ -186,7 +186,7 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
         return haywires.IsActive(type);
     }
 
-    public override void TakeDamage(float damage) {
+    public void TakeDamage(float damage) {
         if (damage <= 0 || invulnerabilityTimeRemaining > 0) {
             return;
         }

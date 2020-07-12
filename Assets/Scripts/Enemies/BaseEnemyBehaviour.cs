@@ -18,7 +18,7 @@ public class BaseEnemyBehaviour : BaseSpaceEntityBehaviour
 
     public float cannonCooldownTime;
 
-    public float score = 100;
+    public int score = 100;
 
     // Start is called before the first frame update
     private new void Start()
@@ -54,7 +54,7 @@ public class BaseEnemyBehaviour : BaseSpaceEntityBehaviour
     }
 
     public string GetEnemyType() {
-        return name.Replace("Enemy - ", "");
+        return name.Replace("Enemy - ", "").Replace("(Clone)", "");
     }
 
     protected virtual void HandleMovement() {
@@ -95,5 +95,20 @@ public class BaseEnemyBehaviour : BaseSpaceEntityBehaviour
         if (transform.eulerAngles.z != 90) {
             transform.eulerAngles = DEFAULT_ROTATION;
         }
+    }
+
+    public virtual void TakeDamage(float damage) {
+        if (damage <= 0) {
+            return;
+        }
+
+        health -= damage;
+
+        if (health <= 0) { 
+            GameStateManager gameState = GameObject.FindWithTag("GameState").GetComponent<GameStateManager>();
+            gameState.IncrementScore(score);
+
+            Destroy(this.gameObject);
+        };
     }
 }
