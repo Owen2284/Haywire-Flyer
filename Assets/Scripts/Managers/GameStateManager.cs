@@ -131,10 +131,10 @@ public class GameStateManager : MonoBehaviour
     void HandleHaywires() {
         secondsToNextHaywire -= Time.deltaTime;
         if (secondsToNextHaywire <= 0) {
-            activeHaywires = new HaywireCollection(haywireCount);
-            // activeHaywires = new HaywireCollection(new List<HaywireType> {
-            //     HaywireType.ShipSpeedDoubled
-            // });
+            //activeHaywires = new HaywireCollection(haywireCount);
+            activeHaywires = new HaywireCollection(new List<HaywireType> {
+                HaywireType.ShipCannonsSpin
+            });
             
             player.SetHaywires(activeHaywires);
 

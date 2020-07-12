@@ -34,6 +34,7 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
         HandleMovement();
         HandleRotation();
         HandleFiring();
+        HandleHaywires();
     }
 
     void HandleMovement() {
@@ -80,6 +81,20 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
             enemy.TakeDamage(1);
 
             if (health <= 0) Destroy(this.gameObject);
+        }
+    }
+
+    void HandleHaywires() {
+        // Spin cannons
+        if (IsHaywireActive(HaywireType.ShipCannonsSpin)) {
+            foreach (CannonBehaviour cannon in cannons) {
+                cannon.gameObject.transform.Rotate(0, 0, 0.2f);
+            }
+        }
+        else {
+            foreach (CannonBehaviour cannon in cannons) {
+                cannon.gameObject.transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
+            }
         }
     }
 
