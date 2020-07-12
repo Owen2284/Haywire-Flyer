@@ -81,7 +81,7 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
     }
 
     void HandleCollision(GameObject target) {
-        if (target.tag == "Enemy") {
+        if (target.tag == "Enemy" || target.tag == "Boss") {
             BaseEnemyBehaviour enemy = target.GetComponent<BaseEnemyBehaviour>();
             enemy.TakeDamage(1);
 

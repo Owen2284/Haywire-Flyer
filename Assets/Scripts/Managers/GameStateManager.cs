@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class GameStateManager : MonoBehaviour
 {
     public List<GameObject> spawnableEnemies;
+    public List<GameObject> spawnableBosses;
     public Vector2 spawnRoot;
 
     public float haywireTime;
@@ -29,6 +30,7 @@ public class GameStateManager : MonoBehaviour
     private float secondsToNextHaywire;
     private float secondsToNextHaywireIncrease;
 
+    private bool bossSpawned;
     private bool? finishState;
 
     private List<WaveDefinition> waveDefinitions;
@@ -63,15 +65,11 @@ public class GameStateManager : MonoBehaviour
         int enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
         int bossCount = GameObject.FindGameObjectsWithTag("Boss").Length;
 
-        if (secondsToNextBoss == 0 && bossCount == 0 && enemyCount == 0) {
+        if (bossSpawned && bossCount == 0 && enemyCount == 0) {
             finishState = true;
         }
         else if (player == null) {
             finishState = false;
-        }
-
-        if (finishState != null) {
-            FinalizeUI(finishState.Value);
         }
     }
 
@@ -79,45 +77,52 @@ public class GameStateManager : MonoBehaviour
         int enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
         int bossCount = GameObject.FindGameObjectsWithTag("Boss").Length;
 
-        // Enemy spawning
-        if (secondsToNextWave > 0) {
-            secondsToNextWave -= Time.deltaTime;
-        }
-        if (secondsToNextWave <= 0 || enemyCount == 0) {
-            SpawnWave();
-            secondsToNextWave = secondsBetweenWaves;
-        }
+        if (finishState != true) {
+            // Enemy spawning
+            if (secondsToNextWave > 0) {
+                secondsToNextWave -= Time.deltaTime;
+            }
+            // Either the timer has expired, or the boss hasn't spawned and the enemies have run out
+            if (secondsToNextWave <= 0 || (bossCount == 0 && enemyCount == 0)) {
+                SpawnWave();
+                secondsToNextWave = secondsBetweenWaves;
+            }
 
-        // Boss spawning
-        if (secondsToNextBoss > 0) {
-            secondsToNextBoss -= Time.deltaTime;
-        }
-        if (secondsToNextBoss <= 0) {
-            // TODO: Spawn boss
+            // Boss spawning
+            if (secondsToNextBoss > 0) {
+                secondsToNextBoss -= Time.deltaTime;
+            }
+            if (secondsToNextBoss <= 0 && !bossSpawned) {
+                SpawnBoss();
+            }
         }
     }
 
     private void UpdateUI() {
         float healthValue = (player.GetCurrentHealth() / player.maxHealth) * 100;
-        healthText.text = $"Current health: {healthValue}";
+            healthText.text = $"Current health: {healthValue}";
 
-        if (secondsToNextBoss > 0) {
-            float distanceFactor = secondsToNextBoss / secondsBetweenBosses;
-            distanceText.text = $"Distance to target: {((int)(distanceFactor * 10000))}";
+        if (finishState != null) {
+            FinalizeUI(finishState.Value);
         }
         else {
-            distanceText.text = "TARGET APPROACHING";
+            if (secondsToNextBoss > 0) {
+                float distanceFactor = secondsToNextBoss / secondsBetweenBosses;
+                distanceText.text = $"Distance to target: {((int)(distanceFactor * 10000))}";
+            }
+            else {
+                distanceText.text = "TARGET APPROACHING";
+            }
+
+            List<string> activeHaywiresText = GetActiveHaywiresText();
+            float haywireFactor = GetProgressToHaywire();
+
+            haywireText.text = string.Join("\n", activeHaywiresText);
+            haywireBar.anchorMax = new Vector2(haywireFactor, 1);
         }
-
-        List<string> activeHaywiresText = GetActiveHaywiresText();
-        float haywireFactor = GetProgressToHaywire();
-
-        haywireText.text = string.Join("\n", activeHaywiresText);
-        haywireBar.anchorMax = new Vector2(haywireFactor, 1);
     }
 
     private void FinalizeUI(bool victory) {
-        healthText.text = "";
         haywireText.text = "";
 
         if (victory) {
@@ -131,10 +136,10 @@ public class GameStateManager : MonoBehaviour
     void HandleHaywires() {
         secondsToNextHaywire -= Time.deltaTime;
         if (secondsToNextHaywire <= 0) {
-            //activeHaywires = new HaywireCollection(haywireCount);
-            activeHaywires = new HaywireCollection(new List<HaywireType> {
-                HaywireType.ShipSpinUncontrollable
-            });
+            activeHaywires = new HaywireCollection(haywireCount);
+            // activeHaywires = new HaywireCollection(new List<HaywireType> {
+            //     HaywireType.ShipSpinUncontrollable
+            // });
             
             player.SetHaywires(activeHaywires);
 
@@ -253,5 +258,19 @@ public class GameStateManager : MonoBehaviour
         foreach (Vector2 position in wave.positions) {
             GameObject enemy = (GameObject)Instantiate(enemyType, position + spawnRoot, rotation);
         }
+    }
+
+    private void SpawnBoss() {
+        // Constants
+        Quaternion rotation = Quaternion.Euler(0, 0, 90);
+
+        // Pick boss type
+        GameObject bossType = spawnableBosses[0];
+
+        // Spawn boss
+        GameObject boss = (GameObject)Instantiate(bossType, new Vector2(2, 0) + spawnRoot, rotation);
+
+        // Set state variable
+        bossSpawned = true;
     }
 }
