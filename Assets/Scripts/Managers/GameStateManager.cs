@@ -133,7 +133,7 @@ public class GameStateManager : MonoBehaviour
         if (secondsToNextHaywire <= 0) {
             //activeHaywires = new HaywireCollection(haywireCount);
             activeHaywires = new HaywireCollection(new List<HaywireType> {
-                HaywireType.ShipCannonsSpin
+                HaywireType.ShipSpinUncontrollable
             });
             
             player.SetHaywires(activeHaywires);

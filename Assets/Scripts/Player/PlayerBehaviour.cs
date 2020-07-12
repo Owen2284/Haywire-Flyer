@@ -50,10 +50,15 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
     }
 
     void HandleRotation() {
-        Vector2 screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+        if (!IsHaywireActive(HaywireType.ShipSpinUncontrollable)) {
+            Vector2 screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
 
-        transform.up = worldPosition - new Vector2(transform.position.x, transform.position.y);
+            transform.up = worldPosition - new Vector2(transform.position.x, transform.position.y);
+        }
+        else {
+            transform.Rotate(0, 0, 1.2f);
+        }
     }
 
     void HandleFiring() {
@@ -127,7 +132,7 @@ public class PlayerBehaviour : BaseSpaceEntityBehaviour
         return moveSpeed;
     }
 
-    private bool IsHaywireActive(HaywireType type) {
+    public bool IsHaywireActive(HaywireType type) {
         if (haywires == null || haywires.TotalHaywires == 0) {
             return false;
         }

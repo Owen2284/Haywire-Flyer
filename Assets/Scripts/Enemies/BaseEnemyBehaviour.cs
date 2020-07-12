@@ -70,14 +70,22 @@ public class BaseEnemyBehaviour : BaseSpaceEntityBehaviour
     protected virtual void HandleCollision(GameObject target) {
         if (target.tag == "Player") {
             PlayerBehaviour player = target.GetComponent<PlayerBehaviour>();
-            player.TakeDamage(1);
+
+            // If spinning wildly, don't deal damage
+            if (!player.IsHaywireActive(HaywireType.ShipSpinUncontrollable)) {
+                player.TakeDamage(1);
+            }
+            else {
+                // transform.up = targetPlayer.transform.position - transform.position;
+                // body.AddForce(-transform.up * 5);
+            }
         }
     }
 
     protected virtual void HandleDisposal() {
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
         if (screenPosition.x < -3 || screenPosition.y > Screen.height + 1 || screenPosition.y < -1) {
-            Destroy(this.gameObject);                
+            Destroy(this.gameObject);
         }
     }
 
