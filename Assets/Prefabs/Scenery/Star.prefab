@@ -94,4 +94,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906751f78a96f584d862ce22dd12a32d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveVector: {x: 0.004, y: 0}
+  moveVector: {x: 0.007, y: 0}

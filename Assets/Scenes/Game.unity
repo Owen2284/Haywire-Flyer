@@ -349,7 +349,7 @@ MonoBehaviour:
   haywireCount: 1
   secondsBetweenWaves: 8
   secondsBetweenBosses: 180
-  secondsBetweenHaywireIncreases: 76
+  secondsBetweenHaywireIncreases: 74
   haywireText: {fileID: 1889458941}
   haywireBar: {fileID: 1792404489}
   healthBar: {fileID: 1987182040}
